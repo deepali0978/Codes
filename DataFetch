@@ -1,0 +1,36 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function DataFetching() {
+  const [posts, setPosts] = useState({});
+ const [id,setId]=useState(1);
+ const[btnclick,setfrombtnclick]=useState(1);
+  useEffect(() => {
+    axios.get(`https://jsonplaceholder.typicode.com/posts/${btnclick}`)
+      .then(res => {
+        console.log(res);
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [btnclick]); // add empty array as second parameter to useEffect to only run once
+const clicking=()=>{
+    setfrombtnclick(id);
+}
+  return (
+    <div>
+        <input type="text" value={id} onChange={(e)=>{setId(e.target.value)}}></input>
+        <button onClick={clicking}>Click me!!</button><br></br>
+        {posts.title}
+       
+      {/* <ul>
+        {posts.map(post => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul> */}
+    </div>
+  );
+}
+
+export default DataFetching;
